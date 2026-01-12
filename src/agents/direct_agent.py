@@ -1,8 +1,10 @@
 from langchain_groq import ChatGroq
 from src.prompt.directorPrompt import DirectorPrompt
 from src.state.leadState import LeadState
+from dotenv import load_dotenv
+load_dotenv()
 
-llm = ChatGroq(model="llama3-70b-8192")
+llm = ChatGroq(model="llama-3.3-70b-versatile")
 
 def director_agent(state: LeadState):
     query = state["user_query"]
