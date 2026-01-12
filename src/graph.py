@@ -3,17 +3,21 @@ from src.state.leadState import LeadState
 from src.agents.direct_agent import director_agent
 from src.agents.retrieval_agent import RetrievalAgent
 from langchain_groq import ChatGroq
-from langgraph.prebuilt import interrupt
+from langgraph.types import interrupt
 from dotenv import load_dotenv
 load_dotenv()
 
 
 def human_node(state: LeadState):
     print("human node")
-    interrupt({
+    value = interrupt({
         "message": "High intent detected. Please provide your name and email.",
         "required_fields": ["name", "email"]
     })
+    if value:
+        state["name"] = value.get("name")
+        state["email"] = value.get("email")
+    
     return state
 
 
@@ -36,7 +40,7 @@ def chat(state: LeadState):
 
 
 graph = StateGraph(LeadState)
-retrieval_agent = RetrievalAgent(state=LeadState(), model="llama-3.3-70b-versatile")
+retrieval_agent = RetrievalAgent(model="llama-3.3-70b-versatile")
 
 graph.add_node("director", director_agent)
 graph.add_node("human", human_node)
@@ -60,6 +64,3 @@ graph.add_edge("retrieval", END)
 graph.add_edge("chat", END)
 
 compile_app = graph.compile()
-
-
-

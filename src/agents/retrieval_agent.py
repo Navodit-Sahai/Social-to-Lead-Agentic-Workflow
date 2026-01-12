@@ -3,14 +3,12 @@ from langchain_groq import ChatGroq
 from src.state.leadState import LeadState
 from dotenv import load_dotenv
 load_dotenv()
-import os
 from pathlib import Path
 
 class RetrievalAgent:
-    def __init__(self, state: LeadState, model="llama-3.3-70b-versatile"):
+    def __init__(self, model="llama-3.3-70b-versatile"):
         self.model = model
         self.llm = ChatGroq(model=self.model)
-        self.state = state
 
     def loadInfo(self):
         
@@ -26,7 +24,7 @@ class RetrievalAgent:
         info = docs[0].page_content
         return info
 
-    def responder(self, state):
+    def responder(self, state:LeadState):
         query = state['user_query']
 
         if "chat_history" not in state:
