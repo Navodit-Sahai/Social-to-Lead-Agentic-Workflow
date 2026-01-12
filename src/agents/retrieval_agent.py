@@ -24,7 +24,6 @@ class RetrievalAgent:
         )
         docs = loader.load()
         info = docs[0].page_content
-        print(info)
         return info
 
     def responder(self, state):
