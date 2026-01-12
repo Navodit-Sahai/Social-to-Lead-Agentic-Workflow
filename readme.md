@@ -4,7 +4,7 @@
 
 1. **Clone the repository**
 ```bash
-git clone <https://github.com/Navodit-Sahai/Social-to-Lead-Agentic-Workflow>
+git clone https://github.com/Navodit-Sahai/Social-to-Lead-Agentic-Workflow
 cd Social-to-Lead-workflow
 ```
 
