@@ -3,21 +3,18 @@ from src.state.leadState import LeadState
 from src.agents.direct_agent import director_agent
 from src.agents.retrieval_agent import RetrievalAgent
 from langchain_groq import ChatGroq
+from src.tools.mock_api_tool import mock_lead_capture
 from langgraph.types import interrupt
 from dotenv import load_dotenv
 load_dotenv()
 
 
 def human_node(state: LeadState):
-    print("human node")
-    value = interrupt({
-        "message": "High intent detected. Please provide your name and email.",
-        "required_fields": ["name", "email"]
-    })
-    if value:
-        state["name"] = value.get("name")
-        state["email"] = value.get("email")
-    
+    """
+    Node for handling high intent - marks that lead capture is needed
+    """
+    print("High intent detected - Lead capture required")
+    state["lead_captured"] = False
     return state
 
 

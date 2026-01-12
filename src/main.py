@@ -1,5 +1,38 @@
 from src.state.leadState import LeadState
 from src.graph import compile_app
+from src.tools.mock_api_tool import mock_lead_capture
+
+def get_lead_info():
+    """
+    Collect all three required fields before calling the API.
+    Ensures no premature API calls.
+    """
+    print("\n")
+    print("Please provide your information:")
+    
+    while True:
+        name = input("Name: ").strip()
+        if name:
+            break
+        print("name cannot be empty")
+    while True:
+        email = input("Email: ").strip()
+        if email :
+            break
+        print("email cannot be empty")
+
+    platforms = ["YouTube", "Instagram", "TikTok", "Twitter", "Facebook", "LinkedIn", "Other"]
+    print(f"\nAvailable platforms: {', '.join(platforms)}")
+    while True:
+        platform = input("Creator Platform: ").strip()
+        if platform:
+            break
+        print(" Platform cannot be empty. Please try again.")
+    
+    return name, email, platform
+
+
+
 
 def main():
     print("=" * 50)
@@ -22,8 +55,10 @@ def main():
                 intent=None,
                 name=None,
                 email=None,
+                platform=None,
                 response="",
-                chat_history=[]
+                chat_history=[],
+                lead_captured=None
             )
             result = compile_app.invoke(initial_state)
 
@@ -32,8 +67,8 @@ def main():
             
             if result.get('intent') == 'HIGH_INTENT':
                 print("\n High intent detected!")
-                name = input("Please enter your name: ").strip()
-                email = input("Please enter your email: ").strip()
+                name,email,platform=get_lead_info()
+                mock_lead_capture(name, email, platform)
                 print(f"\n Thank you, {name}! We'll contact you at {email}\n")
             
         except KeyboardInterrupt:

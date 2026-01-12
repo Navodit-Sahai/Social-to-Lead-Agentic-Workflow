@@ -5,5 +5,7 @@ class LeadState(TypedDict):
     intent: Optional[str]
     name: Optional[str]
     email: Optional[str]
+    platform: Optional[str]
     response:str
     chat_history: List[dict]
+    lead_captured: Optional[bool]
